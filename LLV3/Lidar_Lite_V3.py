@@ -3,7 +3,6 @@ import time
 
 class Lidar():
     def __init__(self, address=0x62):
-        # The default address
         self.address = address
         self.distance_write_register = 0x00
         self.distance_write_value = 0x04
@@ -56,14 +55,16 @@ class Lidar():
         val = self.bus.read_byte_data(self.address, reg)
         return val
     
-    def get_distance(self, bias_correction=True, wait=True):
+    def get_distance(self, bias_correction=True):
         if bias_correction:
             self.write_to_register(self.distance_write_register, self.distance_write_value)
         else:
             self.write_to_register(self.distance_write_register, self.distance_write_value_no_bias_correction)
         
-        if wait:
-            time.sleep(0.05)
+        # Poll status bit
+        busy_flag = 1
+        while busy_flag != 0:
+            busy_flag = self.get_busy_flag()
 
         distance = self.bus.read_i2c_block_data(self.address, self.distance_read_high, 2)
         return (distance[0] << 8) + distance[1]
