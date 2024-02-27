@@ -7,4 +7,4 @@ This library provides quick access to basic functions of the LiDAR Lite v3 via I
     - If necessary, update the I2C address instance variable.
     - Alternatively, provide the correct address when instantiating a Lidar object.
 - Download this repo and import the `Lidar` class from `LLV3.Lidar_Lite_V3`.
-- `examples.py` provides samples for taking measurement individual and burst readings.
+- `examples.py` provides samples for taking individual and burst measurement readings.
